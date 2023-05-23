@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+</head>
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #E5CCFF;
+  }
+
+  h2 {
+      color: #333;
+      text-align: center;
+      margin-top: 40px;
+  }
+
+  form {
+      max-width: 300px;
+      margin: 0 auto;
+  }
+
+  .form-row {
+      margin-bottom: 15px;
+  }
+
+  label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+  }
+
+  input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+  }
+
+  #submit {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius:5px;
+  }
+
+  .warning {
+      text-align: center;
+      margin-top: 20px;
+  }
+
+  .weather, .temp {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+  }
+  .weather h4 {
+    font-family:Arial, sans-serif;
+    color:red;
+}
+
+.temp h4 {
+    color: red;
+}
+</style>
+<body>
+   
+    <center><h2>Enter your city</h2></center>
+    <form method="POST" >
+        <div class="form-row">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <br><br>
+        <div class="form-row">
+            <input type="submit" value="check weather" id="submit">
+        </div>
+        <div class="warning"><h6 class="red-text" id="noaccount"></h6></div>
+        <div class="weather"><h4 class="weather" id="weather"></h4></div>
+        <div class="weather"><h4 class="temp" id="temp"></h4></div>
+        <div class="weather"><h4 class="net" id="net"></h4></div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+            $('#submit').click(function(event) {
+              event.preventDefault();  
+          
+             
+              var form_data = {
+                
+                'city': $('#city').val()
+              }
+               
+              var jsonData = JSON.stringify(form_data);
+              
+              $.ajax({
+                type: 'POST',
+                url: '{{ url_for("check") }}',
+                contentType: 'application/json',
+                data: jsonData,
+                success: function(response) {
+                    
+                    console.log(response);
+                   
+                    $("#weather").text(response.weather);
+                    $("#temp").text(response.temp);
+                    $("#net").text(response.connection);
+                  },
+                
+                error: function(response) {
+                  
+                  console.log(response);
+                }
+              });
+            });
+          });
+    </script>
+</body>
+</html>
