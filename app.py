@@ -1,7 +1,7 @@
 from flask import Flask,redirect,render_template,jsonify,url_for,request
 import requests,json
 
-api_key='230ac56204b139a61162fc18a9d5cc63'
+api_key=''
 app=Flask(__name__)
 
 
